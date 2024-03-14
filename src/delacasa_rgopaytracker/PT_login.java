@@ -17,12 +17,17 @@ public class PT_login extends javax.swing.JFrame {
         conn = myconnection.dbConnection();
         setTitle("RGO PayTracker");
         setIconImage();
-        
-        addWindowListener(new WindowAdapter(){
-            public void closeWindow(WindowEvent e){
-                exitConfirmation();
-            }
-        });
+        setSize(550, 290);
+        setResizable(false);
+    }
+    
+    @Override
+    public void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            exitConfirmation();
+        } else {
+            super.processWindowEvent(e);
+        }
     }
 
     // DO NOT modify this code
@@ -97,7 +102,7 @@ public class PT_login extends javax.swing.JFrame {
                 .addComponent(auth_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(auth_title, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         auth_panel_headerLayout.setVerticalGroup(
             auth_panel_headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +117,7 @@ public class PT_login extends javax.swing.JFrame {
             auth_panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(auth_panel_header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(auth_panel_mainLayout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(105, 105, 105)
                 .addGroup(auth_panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(auth_txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(auth_txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -122,13 +127,13 @@ public class PT_login extends javax.swing.JFrame {
                     .addGroup(auth_panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(auth_in_name)
                         .addComponent(auth_in_password, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         auth_panel_mainLayout.setVerticalGroup(
             auth_panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(auth_panel_mainLayout.createSequentialGroup()
                 .addComponent(auth_panel_header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addGap(38, 38, 38)
                 .addGroup(auth_panel_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(auth_txt_name)
                     .addComponent(auth_in_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -138,7 +143,7 @@ public class PT_login extends javax.swing.JFrame {
                     .addComponent(auth_in_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(auth_btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,8 +167,8 @@ public class PT_login extends javax.swing.JFrame {
     
     private void exitConfirmation(){
         int yesnoExit = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the program?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
-        if (yesnoExit == JOptionPane.YES_OPTION){
-            dispose();
+            if (yesnoExit == 0){
+                this.dispose();
         }
     }
     

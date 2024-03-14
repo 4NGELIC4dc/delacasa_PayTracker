@@ -209,17 +209,6 @@
                                           <Component id="student_in_studentname" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="student_btn_enter" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="student_btn_clear" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="student_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="student_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="student_btn_delete" min="-2" pref="70" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="student_txt_studentbday" min="-2" pref="120" max="-2" attributes="0"/>
@@ -262,9 +251,18 @@
                                               <Component id="student_combo_branch" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="student_btn_enter" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="student_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="student_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="student_btn_delete" min="-2" pref="70" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -324,7 +322,6 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="student_btn_enter" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="student_btn_clear" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="student_btn_edit" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="student_btn_update" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="student_btn_delete" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -457,11 +454,12 @@
                           <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="Item 1"/>
-                            <StringItem index="1" value="Item 2"/>
-                            <StringItem index="2" value="Item 3"/>
-                            <StringItem index="3" value="Item 4"/>
+                          <StringArray count="5">
+                            <StringItem index="0" value="Davao"/>
+                            <StringItem index="1" value="Koronadal"/>
+                            <StringItem index="2" value="GenSan"/>
+                            <StringItem index="3" value="CDO"/>
+                            <StringItem index="4" value="Butuan"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -481,11 +479,14 @@
                           <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="Item 1"/>
-                            <StringItem index="1" value="Item 2"/>
-                            <StringItem index="2" value="Item 3"/>
-                            <StringItem index="3" value="Item 4"/>
+                          <StringArray count="7">
+                            <StringItem index="0" value="None"/>
+                            <StringItem index="1" value="Group of 10"/>
+                            <StringItem index="2" value="Spot Cash"/>
+                            <StringItem index="3" value="Repeaters"/>
+                            <StringItem index="4" value="Cum Laude"/>
+                            <StringItem index="5" value="Magna Cum Laude"/>
+                            <StringItem index="6" value="Summa Cum Laude"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -590,6 +591,12 @@
                       </Events>
                     </Component>
                     <Component class="com.toedter.calendar.JDateChooser" name="student_date_chooser">
+                      <Properties>
+                        <Property name="dateFormatString" type="java.lang.String" value="YYYY-MM-dd"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="0"/>
+                        </Property>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="student_btn_enter">
                       <Properties>
@@ -607,25 +614,8 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="student_btn_clear">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="41" green="c2" red="8e" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Clear"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="null"/>
-                        </Property>
-                      </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_clearActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_enterActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="student_btn_edit">
@@ -644,6 +634,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_editActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="student_btn_update">
                       <Properties>
@@ -661,6 +654,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_updateActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="student_btn_delete">
                       <Properties>
@@ -691,11 +687,9 @@
                           <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="Item 1"/>
-                            <StringItem index="1" value="Item 2"/>
-                            <StringItem index="2" value="Item 3"/>
-                            <StringItem index="3" value="Item 4"/>
+                          <StringArray count="2">
+                            <StringItem index="0" value="Female"/>
+                            <StringItem index="1" value="Male"/>
                           </StringArray>
                         </Property>
                       </Properties>
@@ -895,26 +889,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_balance" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="trans_in_balance" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_tranchenumber" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="trans_combo_tranchenumber" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                      <Component id="trans_btn_enter" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="trans_btn_clear" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="trans_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="trans_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="trans_txt_tranchedate" min="-2" pref="120" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                       <Component id="trans_date_chooser" pref="217" max="32767" attributes="0"/>
@@ -935,14 +909,35 @@
                                       <Component id="trans_in_discount" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="trans_txt_studentname" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <Component id="trans_txt_studentnumber" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="trans_txt_studentname" alignment="0" pref="110" max="32767" attributes="0"/>
+                                          <Component id="trans_txt_studentnumber" alignment="0" pref="110" max="32767" attributes="0"/>
+                                          <Component id="trans_btn_searchUser" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="trans_in_studentname" alignment="0" pref="216" max="32767" attributes="0"/>
                                           <Component id="trans_in_studentnumber" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="trans_in_searchUser" alignment="0" pref="216" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="trans_txt_balance" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                              <Component id="trans_btn_pay" min="-2" pref="70" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                              <Component id="trans_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                              <Component id="trans_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="trans_in_balance" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -953,7 +948,12 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="64" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="trans_in_searchUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="trans_btn_searchUser" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="trans_txt_studentname" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="trans_in_studentname" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -985,22 +985,16 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="trans_txt_tranchenumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="trans_combo_tranchenumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="trans_txt_balance" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="trans_in_balance" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="trans_btn_enter" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="trans_btn_clear" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="trans_btn_pay" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   <Component id="trans_btn_edit" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   <Component id="trans_btn_update" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1015,17 +1009,6 @@
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Student name:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="trans_txt_tranchenumber">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Tranche number:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="trans_txt_studentnumber">
@@ -1080,7 +1063,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Balance:"/>
+                        <Property name="text" type="java.lang.String" value="New balance:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="trans_txt_discountamount">
@@ -1091,32 +1074,8 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Total fee:"/>
+                        <Property name="text" type="java.lang.String" value="Current balance:"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JComboBox" name="trans_combo_tranchenumber">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="0"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
-                        </Property>
-                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="Item 1"/>
-                            <StringItem index="1" value="Item 2"/>
-                            <StringItem index="2" value="Item 3"/>
-                            <StringItem index="3" value="Item 4"/>
-                          </StringArray>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                      </AuxValues>
                     </Component>
                     <Component class="javax.swing.JTextField" name="trans_in_trancheamount">
                       <Properties>
@@ -1221,7 +1180,7 @@
                     </Component>
                     <Component class="com.toedter.calendar.JDateChooser" name="trans_date_chooser">
                     </Component>
-                    <Component class="javax.swing.JButton" name="trans_btn_enter">
+                    <Component class="javax.swing.JButton" name="trans_btn_pay">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="41" green="c2" red="8e" type="rgb"/>
@@ -1232,31 +1191,11 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Enter"/>
+                        <Property name="text" type="java.lang.String" value="Pay"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="trans_btn_clear">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="41" green="c2" red="8e" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Clear"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="null"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_clearActionPerformed"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="trans_btn_edit">
                       <Properties>
@@ -1293,6 +1232,42 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_updateActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="trans_btn_searchUser">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="41" green="c2" red="8e" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Search User"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_searchUserActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="trans_in_searchUser">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="0"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_in_searchUserActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -1372,18 +1347,54 @@
                               <Color blue="0" green="0" red="0" type="rgb"/>
                             </Property>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="10" rowCount="4">
+                              <Table columnCount="7" rowCount="4">
                                 <Column editable="true" title="Name" type="java.lang.Object"/>
                                 <Column editable="true" title="ID Number" type="java.lang.Object"/>
                                 <Column editable="true" title="Discount" type="java.lang.Object"/>
-                                <Column editable="true" title="Total fee" type="java.lang.Object"/>
-                                <Column editable="true" title="Tranche 1" type="java.lang.Object"/>
-                                <Column editable="true" title="Tranche 2" type="java.lang.Object"/>
-                                <Column editable="true" title="Tranche 3" type="java.lang.Object"/>
-                                <Column editable="true" title="Tranche 4" type="java.lang.Object"/>
-                                <Column editable="true" title="Tranche 5" type="java.lang.Object"/>
+                                <Column editable="true" title="Current balance" type="java.lang.Object"/>
+                                <Column editable="true" title="Tranche amount" type="java.lang.Object"/>
+                                <Column editable="true" title="Tranche date" type="java.lang.Object"/>
                                 <Column editable="true" title="Balance" type="java.lang.Object"/>
                               </Table>
+                            </Property>
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                              <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                              </TableColumnModel>
                             </Property>
                             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
