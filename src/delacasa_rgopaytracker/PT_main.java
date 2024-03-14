@@ -2,9 +2,9 @@ package delacasa_rgopaytracker;
 import com.toedter.calendar.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 import java.sql.*;
 import java.text.*;
+import javax.swing.event.*;
 import net.proteanit.sql.*;
 /**
  *
@@ -24,6 +24,49 @@ public class PT_main extends javax.swing.JFrame {
         setSize(1300, 650);
         setResizable(false);
         StudentTable();
+        TransactionTable();
+        
+            student_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = student_table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Populate text fields with selected row data
+                        String studentName = student_table.getValueAt(selectedRow, 0).toString();
+                        String studentGender = student_table.getValueAt(selectedRow, 1).toString();
+                        String studentDob = student_table.getValueAt(selectedRow, 2).toString();
+                        String studentMobile = student_table.getValueAt(selectedRow, 3).toString();
+                        String studentEmail = student_table.getValueAt(selectedRow, 4).toString();
+                        String studentNumber = student_table.getValueAt(selectedRow, 5).toString();
+                        String schoolName = student_table.getValueAt(selectedRow, 6).toString();
+                        String schoolLocation = student_table.getValueAt(selectedRow, 7).toString();
+                        String branchName = student_table.getValueAt(selectedRow, 8).toString();
+                        String discountName = student_table.getValueAt(selectedRow, 9).toString();
+                        
+                        // Populate other text fields similarly
+                        student_in_studentname.setText(studentName);
+                        student_combo_gender.setSelectedItem(studentGender);
+                        student_in_studentmobile.setText(studentMobile);
+                        student_in_studentemail.setText(studentEmail);
+                        student_in_studentnumber.setText(studentNumber);
+                        student_in_schoolname.setText(schoolName);
+                        student_in_schoollocation.setText(schoolLocation);
+                        student_combo_branch.setSelectedItem(branchName);
+                        student_combo_discount.setSelectedItem(discountName);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                        java.util.Date dob = null;
+                        try {
+                            dob = dateFormat.parse(studentDob);
+                        } catch (ParseException ex) {
+                            ex.printStackTrace();
+                        }
+                        java.sql.Date sqlDate = new java.sql.Date(dob.getTime());
+                        student_date_chooser.setDate(sqlDate);
+                    }
+                }
+            }
+        });
     }
     
     @Override
@@ -36,25 +79,24 @@ public class PT_main extends javax.swing.JFrame {
     }
 
     public void StudentTable(){
-        try{
-            String sql="select student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name from student";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
+        String sql = "select student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name from student";
+        try (PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery()) {
             student_table.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }finally{
-            try{
-                rs.close();
-                pst.close();
-            }catch (Exception e){
-                JOptionPane.showMessageDialog(null, e);
-            }
         }
     }
     
     public void TransactionTable(){
-        
+        try{
+            String sql="select student_name, student_number, discount_name, tranche_amount, tranche_date, balance from tranches";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            trans_table.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
     
     // DO NOT modify this code
@@ -93,11 +135,11 @@ public class PT_main extends javax.swing.JFrame {
         student_btn_update = new javax.swing.JButton();
         student_btn_delete = new javax.swing.JButton();
         student_combo_gender = new javax.swing.JComboBox<>();
+        student_btn_clear = new javax.swing.JButton();
         student_panel2 = new javax.swing.JPanel();
         student_scrollpane = new javax.swing.JScrollPane();
         student_table = new javax.swing.JTable();
         student_btn_search = new javax.swing.JButton();
-        student_btn_refresh = new javax.swing.JButton();
         student_in_search = new javax.swing.JTextField();
         tab_transactions = new javax.swing.JPanel();
         trans_panel1 = new javax.swing.JPanel();
@@ -323,11 +365,27 @@ public class PT_main extends javax.swing.JFrame {
         student_btn_delete.setForeground(new java.awt.Color(255, 255, 255));
         student_btn_delete.setText("Delete");
         student_btn_delete.setBorder(null);
+        student_btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_btn_deleteActionPerformed(evt);
+            }
+        });
 
         student_combo_gender.setBackground(new java.awt.Color(255, 255, 255));
         student_combo_gender.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         student_combo_gender.setForeground(new java.awt.Color(0, 0, 0));
         student_combo_gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Female", "Male" }));
+
+        student_btn_clear.setBackground(new java.awt.Color(142, 194, 65));
+        student_btn_clear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        student_btn_clear.setForeground(new java.awt.Color(255, 255, 255));
+        student_btn_clear.setText("Clear");
+        student_btn_clear.setBorder(null);
+        student_btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_btn_clearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout student_panel1Layout = new javax.swing.GroupLayout(student_panel1);
         student_panel1.setLayout(student_panel1Layout);
@@ -335,57 +393,62 @@ public class PT_main extends javax.swing.JFrame {
             student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(student_panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(student_panel1Layout.createSequentialGroup()
                         .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(student_txt_studentgender, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(student_txt_studentname, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(student_combo_gender, 0, 231, Short.MAX_VALUE)
-                            .addComponent(student_in_studentname)))
-                    .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_studentbday, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_date_chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_in_schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_schoollocation, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_in_schoollocation, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_studentnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_in_studentnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_studentemail)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_in_studentemail, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_txt_studentmobile)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(student_in_studentmobile, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(student_panel1Layout.createSequentialGroup()
-                            .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(student_txt_branch, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(student_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(student_combo_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(student_combo_branch, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(student_panel1Layout.createSequentialGroup()
-                            .addComponent(student_btn_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(student_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(student_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(student_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(21, 21, 21))
+                            .addGroup(student_panel1Layout.createSequentialGroup()
+                                .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(student_txt_studentgender, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(student_txt_studentname, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(student_combo_gender, 0, 231, Short.MAX_VALUE)
+                                    .addComponent(student_in_studentname)))
+                            .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_studentbday, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_date_chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_in_schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_schoollocation, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_in_schoollocation, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_studentnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_in_studentnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_studentemail)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_in_studentemail, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, student_panel1Layout.createSequentialGroup()
+                                    .addComponent(student_txt_studentmobile)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(student_in_studentmobile, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(student_panel1Layout.createSequentialGroup()
+                                    .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(student_txt_branch, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(student_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(student_combo_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(student_combo_branch, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(21, 21, 21))
+                    .addGroup(student_panel1Layout.createSequentialGroup()
+                        .addComponent(student_btn_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(student_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(student_btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(student_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(student_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         student_panel1Layout.setVerticalGroup(
             student_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,7 +498,8 @@ public class PT_main extends javax.swing.JFrame {
                     .addComponent(student_btn_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(student_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(student_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(student_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(student_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(student_btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -462,12 +526,11 @@ public class PT_main extends javax.swing.JFrame {
         student_btn_search.setForeground(new java.awt.Color(255, 255, 255));
         student_btn_search.setText("Search");
         student_btn_search.setBorder(null);
-
-        student_btn_refresh.setBackground(new java.awt.Color(142, 194, 65));
-        student_btn_refresh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        student_btn_refresh.setForeground(new java.awt.Color(255, 255, 255));
-        student_btn_refresh.setText("Refresh");
-        student_btn_refresh.setBorder(null);
+        student_btn_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_btn_searchActionPerformed(evt);
+            }
+        });
 
         student_in_search.setBackground(new java.awt.Color(255, 255, 255));
         student_in_search.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -482,10 +545,8 @@ public class PT_main extends javax.swing.JFrame {
                 .addGroup(student_panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(student_scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
                     .addGroup(student_panel2Layout.createSequentialGroup()
-                        .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(student_btn_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(student_in_search)))
                 .addContainerGap())
         );
@@ -495,8 +556,7 @@ public class PT_main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(student_panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(student_in_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(student_btn_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(student_scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                 .addContainerGap())
@@ -545,11 +605,11 @@ public class PT_main extends javax.swing.JFrame {
 
         trans_txt_trancheamount.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_txt_trancheamount.setForeground(new java.awt.Color(255, 255, 255));
-        trans_txt_trancheamount.setText("Payment amount:");
+        trans_txt_trancheamount.setText("Tranche amount:");
 
         trans_txt_tranchedate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_txt_tranchedate.setForeground(new java.awt.Color(255, 255, 255));
-        trans_txt_tranchedate.setText("Payment date:");
+        trans_txt_tranchedate.setText("Tranche date:");
 
         trans_txt_discount.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_txt_discount.setForeground(new java.awt.Color(255, 255, 255));
@@ -561,7 +621,7 @@ public class PT_main extends javax.swing.JFrame {
 
         trans_txt_discountamount.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_txt_discountamount.setForeground(new java.awt.Color(255, 255, 255));
-        trans_txt_discountamount.setText("Current balance:");
+        trans_txt_discountamount.setText("Discount remaining:");
 
         trans_in_trancheamount.setBackground(new java.awt.Color(255, 255, 255));
         trans_in_trancheamount.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -648,7 +708,7 @@ public class PT_main extends javax.swing.JFrame {
         trans_btn_searchUser.setBackground(new java.awt.Color(142, 194, 65));
         trans_btn_searchUser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_btn_searchUser.setForeground(new java.awt.Color(255, 255, 255));
-        trans_btn_searchUser.setText("Search User");
+        trans_btn_searchUser.setText("Search ID Number");
         trans_btn_searchUser.setBorder(null);
         trans_btn_searchUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -672,47 +732,46 @@ public class PT_main extends javax.swing.JFrame {
             .addGroup(trans_panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(trans_panel1Layout.createSequentialGroup()
-                        .addComponent(trans_txt_tranchedate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(trans_date_chooser, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                    .addGroup(trans_panel1Layout.createSequentialGroup()
-                        .addComponent(trans_txt_trancheamount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(trans_in_trancheamount))
-                    .addGroup(trans_panel1Layout.createSequentialGroup()
-                        .addComponent(trans_txt_discountamount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(trans_in_discountamount))
-                    .addGroup(trans_panel1Layout.createSequentialGroup()
-                        .addComponent(trans_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(trans_in_discount))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
+                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(trans_txt_studentname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(trans_txt_studentnumber, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+                            .addComponent(trans_btn_searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(trans_txt_studentname, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(trans_txt_studentnumber, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(trans_btn_searchUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(34, 34, 34)
-                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(trans_in_studentname, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                            .addComponent(trans_in_studentname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(trans_in_studentnumber)
-                            .addComponent(trans_in_searchUser, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)))
+                            .addComponent(trans_in_searchUser)))
                     .addGroup(trans_panel1Layout.createSequentialGroup()
                         .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(trans_txt_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(trans_panel1Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
                                 .addComponent(trans_btn_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(34, 34, 34)
                         .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(trans_panel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
+                                .addGap(42, 42, 42)
                                 .addComponent(trans_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(61, 61, 61)
                                 .addComponent(trans_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(trans_in_balance))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addGroup(trans_panel1Layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(trans_in_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
+                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(trans_txt_trancheamount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(trans_txt_tranchedate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(trans_txt_discountamount)
+                            .addComponent(trans_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(trans_in_discount)
+                            .addComponent(trans_date_chooser, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(trans_in_trancheamount)
+                            .addComponent(trans_in_discountamount))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         trans_panel1Layout.setVerticalGroup(
             trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,7 +833,7 @@ public class PT_main extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Name", "ID Number", "Discount", "Current balance", "Tranche amount", "Tranche date", "Balance"
+                "Name", "ID Number", "Discount", "Discount remaining", "Tranche amount", "Tranche date", "Balance"
             }
         ));
         trans_scrollpane.setViewportView(trans_table);
@@ -891,7 +950,33 @@ public class PT_main extends javax.swing.JFrame {
             
         }
     }
-      
+    
+    private void clearStudentFields() {
+        student_in_studentname.setText("");
+        student_in_studentmobile.setText("");
+        student_in_studentemail.setText("");
+        student_in_studentnumber.setText("");
+        student_in_schoolname.setText("");
+        student_in_schoollocation.setText("");
+        JOptionPane.showMessageDialog(null, "Text fields have been cleared.");
+    }
+
+    private boolean isDuplicate(String name, String mobile, String email, String number) {
+        String sql = "SELECT * FROM student WHERE student_name=? OR student_mobile=? OR student_email=? OR student_number=?";
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setString(2, mobile);
+            pst.setString(3, email);
+            pst.setString(4, number);
+            ResultSet rs = pst.executeQuery();
+            return rs.next(); // If ResultSet has next, then duplicate exists
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+    
     private void main_panel_headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_main_panel_headerMouseDragged
         // TODO add your handling code here:
     }//GEN-LAST:event_main_panel_headerMouseDragged
@@ -944,16 +1029,18 @@ public class PT_main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_trans_in_balanceActionPerformed
 
-    private void trans_in_discountamountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_in_discountamountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_trans_in_discountamountActionPerformed
-
     private void trans_btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_updateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_trans_btn_updateActionPerformed
 
     private void student_btn_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_enterActionPerformed
         // TODO add your handling code here:
+        if (isDuplicate(student_in_studentname.getText(), student_in_studentmobile.getText(), 
+                    student_in_studentemail.getText(), student_in_studentnumber.getText())) {
+        JOptionPane.showMessageDialog(null, "Student information already exists.");
+        return;
+    }
+        
         String sql = "insert into student (student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name) values (?,?,?,?,?,?,?,?,?,?)";
         try{
             pst = conn.prepareStatement(sql);
@@ -968,7 +1055,8 @@ public class PT_main extends javax.swing.JFrame {
             pst.setString(9, (String) student_combo_branch.getSelectedItem());
             pst.setString(10, (String) student_combo_discount.getSelectedItem());
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Student Information Added!");
+            StudentTable();
+            JOptionPane.showMessageDialog(null, "Student information added successfully!");
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
@@ -980,7 +1068,6 @@ public class PT_main extends javax.swing.JFrame {
 
     private void student_btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_editActionPerformed
         // TODO add your handling code here:
-
         student_in_studentname.setEditable(true);
         student_in_studentmobile.setEditable(true);
         student_in_studentemail.setEditable(true);
@@ -997,34 +1084,156 @@ public class PT_main extends javax.swing.JFrame {
 
     private void trans_btn_searchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_searchUserActionPerformed
         // TODO add your handling code here:
-        
+        String sql = "select * from balance where student_number=?";
+        try{
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, trans_in_searchUser.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String studentAdd1 = rs.getString("student_name");
+                trans_in_studentname.setText(studentAdd1);
+                String studentAdd2 = rs.getString("student_number");
+                trans_in_studentname.setText(studentAdd2);
+                String studentAdd3 = rs.getString("discount_name");
+                trans_in_studentname.setText(studentAdd3);
+                String studentAdd4 = rs.getString("discount_amount");
+                trans_in_studentname.setText(studentAdd4);
+                rs.close();
+                pst.close();
+            }else{
+                JOptionPane.showMessageDialog(null, "Enter the correct Student ID or Student Name.");
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }finally{
+            try{
+                rs.close();
+                pst.close();
+            }catch (Exception e){
+   
+            }
+        }
     }//GEN-LAST:event_trans_btn_searchUserActionPerformed
 
     private void student_btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_updateActionPerformed
         // TODO add your handling code here:
-        try{
-            String studentVal1 = student_in_studentname.getText();
-            String studentVal2 = student_in_studentmobile.getText();
-            String studentVal3 = student_in_studentemail.getText();
-            String studentVal4 = student_in_studentnumber.getText();
-            String studentVal5 = student_in_schoolname.getText();
-            String studentVal6 = student_in_schoollocation.getText();
-            String studentVal7 = student_combo_gender.getSelectedItem().toString();
-            String studentVal8 = student_combo_branch.getSelectedItem().toString();
-            String studentVal9 = student_combo_discount.getSelectedItem().toString();
-            java.util.Date date = student_date_chooser.getDate();
-            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-            String studentVal10 = sdf.format(date);
-            
-            String sql = "udpate student set student_name='"+studentVal1+"', student_mobile='"+studentVal2+"', student_email='"+studentVal3+"', student_number='"+studentVal4+"', school_name='"+studentVal5+"', school_location='"+studentVal6+"', student_gender='"+studentVal7+"', branch_name='"+studentVal8+"', discount_name='"+studentVal9+"', student_dob='"+studentVal10+"'"; 
-            pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Student Profile Updated!");
-        }catch (Exception e){
+        try {
+            int selectedRow = student_table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get updated values from text fields
+                String updatedStudentName = student_in_studentname.getText();
+                String updatedStudentMobile = student_in_studentmobile.getText();
+                String updatedStudentEmail = student_in_studentemail.getText();
+                String updatedStudentNumber = student_in_studentnumber.getText();
+                String updatedSchoolName = student_in_schoolname.getText();
+                String updatedSchoolLocation = student_in_schoollocation.getText();
+                String updatedStudentGender = student_combo_gender.getSelectedItem().toString();
+                String updatedBranchName = student_combo_branch.getSelectedItem().toString();
+                String updatedDiscountName = student_combo_discount.getSelectedItem().toString();
+                java.util.Date date = student_date_chooser.getDate();
+                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+                String updatedStudentDOB = sdf.format(date);
+
+                if (isDuplicate(updatedStudentName, updatedStudentMobile, updatedStudentEmail, updatedStudentNumber)) {
+                JOptionPane.showMessageDialog(null, "Student information already exists.");
+                return;
+            }
+                
+                // Update corresponding row in the database
+                String sql = "UPDATE student SET student_name=?, student_mobile=?, student_email=?, student_number=?, school_name=?, school_location=?, student_gender=?, branch_name=?, discount_name=?, student_dob=? WHERE id=?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, updatedStudentName);
+                pst.setString(2, updatedStudentMobile);
+                pst.setString(3, updatedStudentEmail);
+                pst.setString(4, updatedStudentNumber);
+                pst.setString(5, updatedSchoolName);
+                pst.setString(6, updatedSchoolLocation);
+                pst.setString(7, updatedStudentGender);
+                pst.setString(8, updatedBranchName);
+                pst.setString(9, updatedDiscountName);
+                pst.setString(10, updatedStudentDOB);
+                pst.setInt(11, selectedRow + 1); 
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Student information updated successfully!");
+
+                // Refresh table
+                StudentTable(); // Assuming this method repopulates the student_table
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a student to update.");
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_student_btn_updateActionPerformed
 
+    private void trans_in_discountamountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_in_discountamountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_trans_in_discountamountActionPerformed
+
+    private void student_btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_searchActionPerformed
+        // TODO add your handling code here:
+        String searchQuery = student_in_search.getText().trim();
+
+        // Check if the search query is empty
+        if (searchQuery.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a search query.");
+            return;
+        }
+
+        // Flag to track if the value exists
+        boolean valueExists = false;
+
+        // Iterate through each row of the table to find the search query
+        for (int i = 0; i < student_table.getRowCount(); i++) {
+            for (int j = 0; j < student_table.getColumnCount(); j++) {
+                String cellValue = student_table.getValueAt(i, j).toString();
+                if (cellValue.equalsIgnoreCase(searchQuery)) {
+                    // Value exists, highlight the row and set the flag
+                    student_table.setRowSelectionInterval(i, i);
+                    valueExists = true;
+                    break;
+                }
+            }
+            if (valueExists) {
+                break; // Break outer loop if value is found
+            }
+        }
+
+        // Display appropriate message dialog based on search result
+        if (valueExists) {
+            JOptionPane.showMessageDialog(null, "Value exists.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Value does not exist.");
+        }
+    }//GEN-LAST:event_student_btn_searchActionPerformed
+
+    private void student_btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_deleteActionPerformed
+        // TODO add your handling code here:
+        try {
+            int selectedRow = student_table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Retrieve the student name from the selected row
+                String studentName = (String) student_table.getValueAt(selectedRow, 0);
+
+                // Delete the corresponding row from the database based on student name
+                String sql = "DELETE FROM student WHERE student_name=?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, studentName);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Student information deleted successfully!");
+                StudentTable(); // Assuming this method repopulates the student_table
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a student to delete.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_student_btn_deleteActionPerformed
+
+    private void student_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_clearActionPerformed
+        // TODO add your handling code here:
+        clearStudentFields();
+    }//GEN-LAST:event_student_btn_clearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1067,10 +1276,10 @@ public class PT_main extends javax.swing.JFrame {
     private javax.swing.JPanel main_panel;
     private javax.swing.JPanel main_panel_header;
     private javax.swing.JLabel main_title;
+    private javax.swing.JButton student_btn_clear;
     private javax.swing.JButton student_btn_delete;
     private javax.swing.JButton student_btn_edit;
     private javax.swing.JButton student_btn_enter;
-    private javax.swing.JButton student_btn_refresh;
     private javax.swing.JButton student_btn_search;
     private javax.swing.JButton student_btn_update;
     private javax.swing.JComboBox<String> student_combo_branch;

@@ -197,72 +197,79 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="student_txt_studentgender" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <Component id="student_txt_studentname" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="student_txt_studentgender" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <Component id="student_txt_studentname" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="student_combo_gender" alignment="0" pref="231" max="32767" attributes="0"/>
+                                                  <Component id="student_in_studentname" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="student_txt_studentbday" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_date_chooser" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="student_txt_schoolname" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_in_schoolname" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="student_txt_schoollocation" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_in_schoollocation" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="student_txt_studentnumber" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_in_studentnumber" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="student_txt_studentemail" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_in_studentemail" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="student_txt_studentmobile" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="student_in_studentmobile" min="-2" pref="231" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="student_txt_branch" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                                      <Component id="student_txt_discount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="33" max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Component id="student_combo_discount" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
+                                                      <Component id="student_combo_branch" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="student_combo_gender" alignment="0" pref="231" max="32767" attributes="0"/>
-                                          <Component id="student_in_studentname" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="student_txt_studentbday" min="-2" pref="120" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_date_chooser" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="student_txt_schoolname" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_in_schoolname" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="student_txt_schoollocation" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_in_schoollocation" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="student_txt_studentnumber" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_in_studentnumber" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="student_txt_studentemail" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_in_studentemail" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="student_txt_studentmobile" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="student_in_studentmobile" min="-2" pref="231" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="student_txt_branch" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                              <Component id="student_txt_discount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="33" max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="student_combo_discount" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
-                                              <Component id="student_combo_branch" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="student_btn_enter" min="-2" pref="70" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="student_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="student_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="student_btn_delete" min="-2" pref="70" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="student_btn_enter" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="student_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="student_btn_clear" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="student_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="student_btn_delete" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -325,6 +332,7 @@
                                   <Component id="student_btn_edit" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="student_btn_update" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="student_btn_delete" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="student_btn_clear" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="19" max="32767" attributes="0"/>
                           </Group>
@@ -674,6 +682,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_deleteActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="student_combo_gender">
                       <Properties>
@@ -697,6 +708,26 @@
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
                     </Component>
+                    <Component class="javax.swing.JButton" name="student_btn_clear">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="41" green="c2" red="8e" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Clear"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_clearActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="student_panel2">
@@ -712,12 +743,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="student_scrollpane" alignment="0" pref="837" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="student_btn_search" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="student_btn_refresh" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="student_scrollpane" pref="837" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="student_btn_search" min="-2" pref="140" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="student_in_search" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -732,7 +761,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="student_in_search" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="student_btn_search" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="student_btn_refresh" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="student_scrollpane" pref="483" max="32767" attributes="0"/>
@@ -797,23 +825,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="student_btn_refresh">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="41" green="c2" red="8e" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Refresh"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="null"/>
-                        </Property>
-                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_btn_searchActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="student_in_search">
                       <Properties>
@@ -888,37 +902,19 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_tranchedate" min="-2" pref="120" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                      <Component id="trans_date_chooser" pref="217" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_trancheamount" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="trans_in_trancheamount" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_discountamount" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="trans_in_discountamount" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_txt_discount" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="trans_in_discount" max="32767" attributes="0"/>
-                                  </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="trans_txt_studentname" alignment="0" pref="110" max="32767" attributes="0"/>
-                                          <Component id="trans_txt_studentnumber" alignment="0" pref="110" max="32767" attributes="0"/>
-                                          <Component id="trans_btn_searchUser" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="trans_txt_studentname" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="trans_txt_studentnumber" alignment="0" pref="110" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="trans_btn_searchUser" min="-2" pref="137" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="trans_in_studentname" alignment="0" pref="216" max="32767" attributes="0"/>
-                                          <Component id="trans_in_studentnumber" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="trans_in_searchUser" alignment="0" pref="216" max="32767" attributes="0"/>
+                                          <Component id="trans_in_studentname" alignment="1" pref="205" max="32767" attributes="0"/>
+                                          <Component id="trans_in_studentnumber" max="32767" attributes="0"/>
+                                          <Component id="trans_in_searchUser" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -929,19 +925,37 @@
                                               <Component id="trans_btn_pay" min="-2" pref="70" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                                               <Component id="trans_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                               <Component id="trans_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="trans_in_balance" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                              <Component id="trans_in_balance" min="-2" pref="205" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="trans_txt_trancheamount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                          <Component id="trans_txt_tranchedate" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                          <Component id="trans_txt_discountamount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="trans_txt_discount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="trans_in_discount" max="32767" attributes="0"/>
+                                          <Component id="trans_date_chooser" pref="205" max="32767" attributes="0"/>
+                                          <Component id="trans_in_trancheamount" max="32767" attributes="0"/>
+                                          <Component id="trans_in_discountamount" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="20" max="32767" attributes="0"/>
+                              <EmptySpace pref="17" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1030,7 +1044,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Payment amount:"/>
+                        <Property name="text" type="java.lang.String" value="Tranche amount:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="trans_txt_tranchedate">
@@ -1041,7 +1055,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Payment date:"/>
+                        <Property name="text" type="java.lang.String" value="Tranche date:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="trans_txt_discount">
@@ -1074,7 +1088,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Current balance:"/>
+                        <Property name="text" type="java.lang.String" value="Discount remaining:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="trans_in_trancheamount">
@@ -1245,7 +1259,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Search User"/>
+                        <Property name="text" type="java.lang.String" value="Search ID Number"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
@@ -1351,7 +1365,7 @@
                                 <Column editable="true" title="Name" type="java.lang.Object"/>
                                 <Column editable="true" title="ID Number" type="java.lang.Object"/>
                                 <Column editable="true" title="Discount" type="java.lang.Object"/>
-                                <Column editable="true" title="Current balance" type="java.lang.Object"/>
+                                <Column editable="true" title="Discount remaining" type="java.lang.Object"/>
                                 <Column editable="true" title="Tranche amount" type="java.lang.Object"/>
                                 <Column editable="true" title="Tranche date" type="java.lang.Object"/>
                                 <Column editable="true" title="Balance" type="java.lang.Object"/>

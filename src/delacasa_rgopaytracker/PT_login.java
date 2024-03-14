@@ -184,10 +184,10 @@ public class PT_login extends javax.swing.JFrame {
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                JOptionPane.showMessageDialog(rootPane, "Login Success!");
-                // Hide the login frame
+                JOptionPane.showMessageDialog(rootPane, "Login Successful.");
+                // Hide login frame
                 this.setVisible(false);
-                // Open the main frame
+                // Open main frame
                 PT_main mainFrame = new PT_main();
                 mainFrame.setVisible(true);
             } else {
