@@ -269,6 +269,11 @@ public class PT_main extends javax.swing.JFrame {
         student_combo_discount.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         student_combo_discount.setForeground(new java.awt.Color(0, 0, 0));
         student_combo_discount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Group of 10", "Spot Cash", "Repeaters", "Cum Laude", "Magna Cum Laude", "Summa Cum Laude" }));
+        student_combo_discount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_combo_discountActionPerformed(evt);
+            }
+        });
 
         student_in_studentemail.setBackground(new java.awt.Color(255, 255, 255));
         student_in_studentemail.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -951,6 +956,21 @@ public class PT_main extends javax.swing.JFrame {
         }
     }
     
+    private int getStudentIdByStudentNumber(String studentNumber) {
+        String sql = "SELECT id FROM student WHERE student_number=?";
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, studentNumber);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return -1; // Return -1 if student id not found
+    }
+    
     private void clearStudentFields() {
         student_in_studentname.setText("");
         student_in_studentmobile.setText("");
@@ -961,16 +981,17 @@ public class PT_main extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Text fields have been cleared.");
     }
 
-    private boolean isDuplicate(String name, String mobile, String email, String number) {
-        String sql = "SELECT * FROM student WHERE student_name=? OR student_mobile=? OR student_email=? OR student_number=?";
+    private boolean isDuplicate(String name, String mobile, String email, String number, int currentStudentId) {
+        String sql = "SELECT * FROM student WHERE (student_name=? OR student_mobile=? OR student_email=? OR student_number=?) AND id != ?";
         try {
             pst = conn.prepareStatement(sql);
             pst.setString(1, name);
             pst.setString(2, mobile);
             pst.setString(3, email);
             pst.setString(4, number);
+            pst.setInt(5, currentStudentId);
             ResultSet rs = pst.executeQuery();
-            return rs.next(); // If ResultSet has next, then duplicate exists
+            return rs.next(); 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
             return false;
@@ -1034,13 +1055,11 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_trans_btn_updateActionPerformed
 
     private void student_btn_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_enterActionPerformed
-        // TODO add your handling code here:
         if (isDuplicate(student_in_studentname.getText(), student_in_studentmobile.getText(), 
-                    student_in_studentemail.getText(), student_in_studentnumber.getText())) {
+                student_in_studentemail.getText(), student_in_studentnumber.getText(), -1))  {
         JOptionPane.showMessageDialog(null, "Student information already exists.");
         return;
-    }
-        
+    }       
         String sql = "insert into student (student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name) values (?,?,?,?,?,?,?,?,?,?)";
         try{
             pst = conn.prepareStatement(sql);
@@ -1067,7 +1086,6 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_trans_in_searchUserActionPerformed
 
     private void student_btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_editActionPerformed
-        // TODO add your handling code here:
         student_in_studentname.setEditable(true);
         student_in_studentmobile.setEditable(true);
         student_in_studentemail.setEditable(true);
@@ -1083,8 +1101,7 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btn_editActionPerformed
 
     private void trans_btn_searchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_searchUserActionPerformed
-        // TODO add your handling code here:
-        String sql = "select * from balance where student_number=?";
+        String sql = "select * from tranches where student_number=?";
         try{
             pst = conn.prepareStatement(sql);
             pst.setString(1, trans_in_searchUser.getText());
@@ -1116,10 +1133,15 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_trans_btn_searchUserActionPerformed
 
     private void student_btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_updateActionPerformed
-        // TODO add your handling code here:
         try {
             int selectedRow = student_table.getSelectedRow();
             if (selectedRow != -1) {
+                String studentNumber = student_table.getValueAt(selectedRow, 5).toString(); // Assuming the student number column is at index 5
+                int currentStudentId = getStudentIdByStudentNumber(studentNumber);
+                if (currentStudentId == -1) {
+                    JOptionPane.showMessageDialog(null, "Error: Student ID not found.");
+                    return;
+                }
                 // Get updated values from text fields
                 String updatedStudentName = student_in_studentname.getText();
                 String updatedStudentMobile = student_in_studentmobile.getText();
@@ -1134,11 +1156,11 @@ public class PT_main extends javax.swing.JFrame {
                 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
                 String updatedStudentDOB = sdf.format(date);
 
-                if (isDuplicate(updatedStudentName, updatedStudentMobile, updatedStudentEmail, updatedStudentNumber)) {
-                JOptionPane.showMessageDialog(null, "Student information already exists.");
-                return;
-            }
-                
+                if (isDuplicate(updatedStudentName, updatedStudentMobile, updatedStudentEmail, updatedStudentNumber, currentStudentId)) {
+                    JOptionPane.showMessageDialog(null, "Student information already exists.");
+                    return;
+                }
+
                 // Update corresponding row in the database
                 String sql = "UPDATE student SET student_name=?, student_mobile=?, student_email=?, student_number=?, school_name=?, school_location=?, student_gender=?, branch_name=?, discount_name=?, student_dob=? WHERE id=?";
                 pst = conn.prepareStatement(sql);
@@ -1152,12 +1174,10 @@ public class PT_main extends javax.swing.JFrame {
                 pst.setString(8, updatedBranchName);
                 pst.setString(9, updatedDiscountName);
                 pst.setString(10, updatedStudentDOB);
-                pst.setInt(11, selectedRow + 1); 
+                pst.setInt(11, currentStudentId); 
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Student information updated successfully!");
-
-                // Refresh table
-                StudentTable(); // Assuming this method repopulates the student_table
+                StudentTable();
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a student to update.");
             }
@@ -1171,35 +1191,26 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_trans_in_discountamountActionPerformed
 
     private void student_btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_searchActionPerformed
-        // TODO add your handling code here:
         String searchQuery = student_in_search.getText().trim();
-
-        // Check if the search query is empty
+        
         if (searchQuery.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter a search query.");
             return;
         }
-
-        // Flag to track if the value exists
         boolean valueExists = false;
-
-        // Iterate through each row of the table to find the search query
         for (int i = 0; i < student_table.getRowCount(); i++) {
             for (int j = 0; j < student_table.getColumnCount(); j++) {
                 String cellValue = student_table.getValueAt(i, j).toString();
                 if (cellValue.equalsIgnoreCase(searchQuery)) {
-                    // Value exists, highlight the row and set the flag
                     student_table.setRowSelectionInterval(i, i);
                     valueExists = true;
                     break;
                 }
             }
             if (valueExists) {
-                break; // Break outer loop if value is found
+                break;
             }
         }
-
-        // Display appropriate message dialog based on search result
         if (valueExists) {
             JOptionPane.showMessageDialog(null, "Value exists.");
         } else {
@@ -1208,7 +1219,6 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btn_searchActionPerformed
 
     private void student_btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_deleteActionPerformed
-        // TODO add your handling code here:
         try {
             int selectedRow = student_table.getSelectedRow();
             if (selectedRow != -1) {
@@ -1221,7 +1231,7 @@ public class PT_main extends javax.swing.JFrame {
                 pst.setString(1, studentName);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Student information deleted successfully!");
-                StudentTable(); // Assuming this method repopulates the student_table
+                StudentTable(); 
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a student to delete.");
             }
@@ -1231,9 +1241,25 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btn_deleteActionPerformed
 
     private void student_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_clearActionPerformed
-        // TODO add your handling code here:
         clearStudentFields();
     }//GEN-LAST:event_student_btn_clearActionPerformed
+
+    private void student_combo_discountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_combo_discountActionPerformed
+        // TODO add your handling code here:
+        String selectedDiscount = (String) student_combo_discount.getSelectedItem();
+        String sql = "SELECT discount_amount FROM discounts WHERE discount_name=?";
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, selectedDiscount);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                double discountAmount = rs.getDouble("discount_amount");
+                trans_in_discountamount.setText(String.valueOf(discountAmount));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_student_combo_discountActionPerformed
 
     /**
      * @param args the command line arguments
