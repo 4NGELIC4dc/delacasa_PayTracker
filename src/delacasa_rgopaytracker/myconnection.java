@@ -13,7 +13,7 @@ public class myconnection {
     public static Connection dbConnection(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rgo_paytracker");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rgo_paytracker_copy");
             return conn;
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, e);

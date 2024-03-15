@@ -67,6 +67,42 @@ public class PT_main extends javax.swing.JFrame {
                 }
             }
         });
+            
+            trans_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = trans_table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Populate text fields with selected row data
+                        String transName = trans_table.getValueAt(selectedRow, 0).toString();
+                        String transNumber = trans_table.getValueAt(selectedRow, 1).toString();
+                        String transDiscount = trans_table.getValueAt(selectedRow, 2).toString();
+                        String transDiscountAmount = trans_table.getValueAt(selectedRow, 3).toString();
+                        String transTranchePay = trans_table.getValueAt(selectedRow, 4).toString();
+                        String transDp = trans_table.getValueAt(selectedRow, 5).toString();
+                        String transBalance = trans_table.getValueAt(selectedRow, 6).toString();
+                        
+                        // Populate other text fields similarly
+                        trans_in_studentname.setText(transName);
+                        trans_in_studentnumber.setText(transNumber);
+                        trans_in_discount.setText(transDiscount);
+                        trans_in_discountamount.setText(transDiscountAmount);
+                        trans_in_trancheamount.setText(transTranchePay);
+                        trans_in_balance.setText(transBalance);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+                        java.util.Date dp = null;
+                        try {
+                            dp = dateFormat.parse(transDp);
+                        } catch (ParseException ex) {
+                            ex.printStackTrace();
+                        }
+                        java.sql.Date sqlDate = new java.sql.Date(dp.getTime());
+                        trans_date_chooser.setDate(sqlDate);
+                    }
+                }
+            }
+        });
     }
     
     @Override
@@ -78,10 +114,10 @@ public class PT_main extends javax.swing.JFrame {
         }
     }
 
-    public void StudentTable(){
-        String sql = "select student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name from student";
+    public void StudentTable() {
+        String sql = "SELECT student_name, student_gender, student_dob, student_mobile, student_email, student_number, school_name, school_location, branch_name, discount_name from student";
         try (PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery()) {
+             ResultSet rs = pst.executeQuery()) {
             student_table.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -89,10 +125,9 @@ public class PT_main extends javax.swing.JFrame {
     }
     
     public void TransactionTable(){
-        try{
-            String sql="select student_name, student_number, discount_name, tranche_amount, tranche_date, balance from tranches";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
+        String sql="SELECT student_name, student_number, discount_name, discount_amount, tranche_amount, tranche_date, balance from tranches";
+        try (PreparedStatement pst = conn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
             trans_table.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -162,12 +197,13 @@ public class PT_main extends javax.swing.JFrame {
         trans_btn_update = new javax.swing.JButton();
         trans_btn_searchUser = new javax.swing.JButton();
         trans_in_searchUser = new javax.swing.JTextField();
+        trans_btn_clear = new javax.swing.JButton();
+        trans_btn_delete = new javax.swing.JButton();
         trans_panel2 = new javax.swing.JPanel();
         trans_in_search = new javax.swing.JTextField();
         trans_scrollpane = new javax.swing.JScrollPane();
         trans_table = new javax.swing.JTable();
         trans_btn_search = new javax.swing.JButton();
-        trans_btn_refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(129, 650));
@@ -264,6 +300,11 @@ public class PT_main extends javax.swing.JFrame {
         student_combo_branch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         student_combo_branch.setForeground(new java.awt.Color(0, 0, 0));
         student_combo_branch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Davao", "Koronadal", "GenSan", "CDO", "Butuan" }));
+        student_combo_branch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_combo_branchActionPerformed(evt);
+            }
+        });
 
         student_combo_discount.setBackground(new java.awt.Color(255, 255, 255));
         student_combo_discount.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -550,8 +591,8 @@ public class PT_main extends javax.swing.JFrame {
                 .addGroup(student_panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(student_scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
                     .addGroup(student_panel2Layout.createSequentialGroup()
-                        .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(student_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(student_in_search)))
                 .addContainerGap())
         );
@@ -687,17 +728,29 @@ public class PT_main extends javax.swing.JFrame {
             }
         });
 
+        trans_date_chooser.setDateFormatString("YYYY-MM-dd");
+
         trans_btn_pay.setBackground(new java.awt.Color(142, 194, 65));
         trans_btn_pay.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_btn_pay.setForeground(new java.awt.Color(255, 255, 255));
         trans_btn_pay.setText("Pay");
         trans_btn_pay.setBorder(null);
+        trans_btn_pay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trans_btn_payActionPerformed(evt);
+            }
+        });
 
         trans_btn_edit.setBackground(new java.awt.Color(142, 194, 65));
         trans_btn_edit.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         trans_btn_edit.setForeground(new java.awt.Color(255, 255, 255));
         trans_btn_edit.setText("Edit");
         trans_btn_edit.setBorder(null);
+        trans_btn_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trans_btn_editActionPerformed(evt);
+            }
+        });
 
         trans_btn_update.setBackground(new java.awt.Color(142, 194, 65));
         trans_btn_update.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -730,53 +783,82 @@ public class PT_main extends javax.swing.JFrame {
             }
         });
 
+        trans_btn_clear.setBackground(new java.awt.Color(142, 194, 65));
+        trans_btn_clear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        trans_btn_clear.setForeground(new java.awt.Color(255, 255, 255));
+        trans_btn_clear.setText("Clear");
+        trans_btn_clear.setBorder(null);
+        trans_btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trans_btn_clearActionPerformed(evt);
+            }
+        });
+
+        trans_btn_delete.setBackground(new java.awt.Color(142, 194, 65));
+        trans_btn_delete.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        trans_btn_delete.setForeground(new java.awt.Color(255, 255, 255));
+        trans_btn_delete.setText("Delete");
+        trans_btn_delete.setBorder(null);
+        trans_btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trans_btn_deleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout trans_panel1Layout = new javax.swing.GroupLayout(trans_panel1);
         trans_panel1.setLayout(trans_panel1Layout);
         trans_panel1Layout.setHorizontalGroup(
             trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(trans_panel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
+                    .addGroup(trans_panel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(trans_txt_studentname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(trans_txt_studentnumber, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-                            .addComponent(trans_btn_searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
+                                .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(trans_txt_trancheamount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(trans_txt_tranchedate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(trans_txt_discountamount)
+                                    .addComponent(trans_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(trans_in_discount)
+                                    .addComponent(trans_date_chooser, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                    .addComponent(trans_in_trancheamount)
+                                    .addComponent(trans_in_discountamount)))
+                            .addGroup(trans_panel1Layout.createSequentialGroup()
+                                .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(trans_panel1Layout.createSequentialGroup()
+                                        .addComponent(trans_txt_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(trans_in_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(trans_panel1Layout.createSequentialGroup()
+                                        .addComponent(trans_btn_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(trans_btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(trans_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(trans_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(trans_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
+                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(trans_panel1Layout.createSequentialGroup()
+                                .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(trans_txt_studentname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(trans_txt_studentnumber, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+                                .addGap(45, 45, 45))
+                            .addGroup(trans_panel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(trans_btn_searchUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(trans_in_studentname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(trans_in_studentnumber)
-                            .addComponent(trans_in_searchUser)))
-                    .addGroup(trans_panel1Layout.createSequentialGroup()
-                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(trans_txt_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(trans_panel1Layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(trans_btn_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(trans_panel1Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(trans_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(61, 61, 61)
-                                .addComponent(trans_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(trans_panel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(trans_in_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trans_panel1Layout.createSequentialGroup()
-                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(trans_txt_trancheamount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(trans_txt_tranchedate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(trans_txt_discountamount)
-                            .addComponent(trans_txt_discount, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(trans_in_discount)
-                            .addComponent(trans_date_chooser, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(trans_in_trancheamount)
-                            .addComponent(trans_in_discountamount))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                            .addComponent(trans_in_searchUser))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         trans_panel1Layout.setVerticalGroup(
             trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -817,7 +899,9 @@ public class PT_main extends javax.swing.JFrame {
                 .addGroup(trans_panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(trans_btn_pay, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(trans_btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trans_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(trans_btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(trans_btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(trans_btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(89, 89, 89))
         );
 
@@ -848,12 +932,11 @@ public class PT_main extends javax.swing.JFrame {
         trans_btn_search.setForeground(new java.awt.Color(255, 255, 255));
         trans_btn_search.setText("Search");
         trans_btn_search.setBorder(null);
-
-        trans_btn_refresh.setBackground(new java.awt.Color(142, 194, 65));
-        trans_btn_refresh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        trans_btn_refresh.setForeground(new java.awt.Color(255, 255, 255));
-        trans_btn_refresh.setText("Refresh");
-        trans_btn_refresh.setBorder(null);
+        trans_btn_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trans_btn_searchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout trans_panel2Layout = new javax.swing.GroupLayout(trans_panel2);
         trans_panel2.setLayout(trans_panel2Layout);
@@ -864,10 +947,8 @@ public class PT_main extends javax.swing.JFrame {
                 .addGroup(trans_panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(trans_scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
                     .addGroup(trans_panel2Layout.createSequentialGroup()
-                        .addComponent(trans_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(trans_btn_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(trans_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(trans_in_search)))
                 .addContainerGap())
         );
@@ -877,8 +958,7 @@ public class PT_main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(trans_panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(trans_in_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trans_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trans_btn_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(trans_btn_search, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(trans_scrollpane, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -950,7 +1030,7 @@ public class PT_main extends javax.swing.JFrame {
     private void exitConfirmation(){
         int yesnoExit = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit the program?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
         if (yesnoExit == JOptionPane.YES_OPTION){
-            dispose();
+            System.exit(0);
         }else{
             
         }
@@ -968,7 +1048,22 @@ public class PT_main extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        return -1; // Return -1 if student id not found
+        return -1; 
+    }
+    
+        private int getBalanceIdByTrancheId(String balance) {
+        String sql = "SELECT id FROM balance WHERE student_number=?";
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, balance);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return -1; 
     }
     
     private void clearStudentFields() {
@@ -981,7 +1076,17 @@ public class PT_main extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Text fields have been cleared.");
     }
 
-    private boolean isDuplicate(String name, String mobile, String email, String number, int currentStudentId) {
+    private void clearTrancheFields(){
+        trans_in_searchUser.setText("");
+        trans_in_studentname.setText("");
+        trans_in_studentnumber.setText("");
+        trans_in_discount.setText("");
+        trans_in_discountamount.setText("");
+        trans_in_trancheamount.setText("");
+        trans_in_balance.setText("");
+        JOptionPane.showMessageDialog(null, "Text fields have been cleared.");
+    }
+    private boolean isDuplicateStudent(String name, String mobile, String email, String number, int currentStudentId) {
         String sql = "SELECT * FROM student WHERE (student_name=? OR student_mobile=? OR student_email=? OR student_number=?) AND id != ?";
         try {
             pst = conn.prepareStatement(sql);
@@ -996,6 +1101,37 @@ public class PT_main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
             return false;
         }
+    }
+    
+        private double calculateDiscountAmount(String selectedDiscount) {
+        double discountAmount = 0.00; // Default value
+
+        switch(selectedDiscount) {
+            case "None":
+                discountAmount = 18000.00;
+                break;
+            case "Group of 10":
+            case "Spot Cash":
+                discountAmount = 17000.00;
+                break;
+            case "Repeaters":
+                discountAmount = 16000.00;
+                break;
+            case "Cum Laude":
+                discountAmount = 13000.00;
+                break;
+            case "Magna Cum Laude":
+                discountAmount = 9000.00;
+                break;
+            case "Summa Cum Laude":
+                discountAmount = 0.00;
+                break;
+            default:
+                // Handle unknown discount names or set a default value
+                break;
+        }
+
+        return discountAmount;
     }
     
     private void main_panel_headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_main_panel_headerMouseDragged
@@ -1047,15 +1183,88 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_trans_in_discountActionPerformed
 
     private void trans_in_balanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_in_balanceActionPerformed
-        // TODO add your handling code here:
+            try {
+            // Retrieve updated transaction details
+            double trancheAmount = Double.parseDouble(trans_in_trancheamount.getText());
+            String trancheDate = ((JTextField) trans_date_chooser.getDateEditor().getUiComponent()).getText();
+
+            // Calculate new balance
+            double previousBalance = Double.parseDouble(trans_in_discountamount.getText());
+            double newBalance = previousBalance - trancheAmount;
+
+            // Update transaction details in the database
+            int selectedRow = trans_table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Assuming you have a transaction ID column in your table
+                int transactionId = Integer.parseInt(trans_table.getValueAt(selectedRow, 0).toString());
+                String updateTransactionSQL = "UPDATE tranches SET tranche_amount=?, tranche_date=?, balance=? WHERE transaction_id=?";
+                pst = conn.prepareStatement(updateTransactionSQL);
+                pst.setDouble(1, trancheAmount);
+                pst.setString(2, trancheDate);
+                pst.setDouble(3, newBalance);
+                pst.setInt(4, transactionId);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Transaction updated successfully!");
+
+                // Refresh transaction table
+                TransactionTable();
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a transaction to update.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_trans_in_balanceActionPerformed
 
     private void trans_btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_updateActionPerformed
-        // TODO add your handling code here:
+        try {
+            int selectedRow = trans_table.getSelectedRow();
+            if (selectedRow != -1) {
+                String studentNumber = trans_table.getValueAt(selectedRow, 1).toString(); // Assuming the student number column is at index 1
+                String studentName = trans_table.getValueAt(selectedRow, 0).toString(); // Assuming the student name column is at index 0
+
+                // Get updated values from text fields
+                double updatedTrancheAmount = Double.parseDouble(trans_in_trancheamount.getText());
+                String updatedTrancheDate = ((JTextField) trans_date_chooser.getDateEditor().getUiComponent()).getText();
+
+                // Retrieve the current discount amount for the student
+                String sqlDiscount = "SELECT discount_amount FROM tranches WHERE student_number=?";
+                pst = conn.prepareStatement(sqlDiscount);
+                pst.setString(1, studentNumber);
+                ResultSet rsDiscount = pst.executeQuery();
+
+                // Check if the result set contains any rows
+                if (rsDiscount.next()) {
+                    double currentDiscountAmount = rsDiscount.getDouble("discount_amount");
+
+                    // Calculate the new balance
+                    double updatedBalance = currentDiscountAmount - updatedTrancheAmount;
+
+                    // Update the transaction record in the database
+                    String sqlUpdate = "UPDATE tranches SET tranche_amount=?, tranche_date=?, balance=? WHERE student_number=? AND student_name=?";
+                    pst = conn.prepareStatement(sqlUpdate);
+                    pst.setDouble(1, updatedTrancheAmount);
+                    pst.setString(2, updatedTrancheDate);
+                    pst.setDouble(3, updatedBalance);
+                    pst.setString(4, studentNumber);
+                    pst.setString(5, studentName);
+                    pst.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Transaction updated successfully!");
+                    TransactionTable(); // Refresh transaction table after update
+                } else {
+                    JOptionPane.showMessageDialog(null, "No discount amount found for the selected student.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a transaction to update.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_trans_btn_updateActionPerformed
 
     private void student_btn_enterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_btn_enterActionPerformed
-        if (isDuplicate(student_in_studentname.getText(), student_in_studentmobile.getText(), 
+        if (isDuplicateStudent(student_in_studentname.getText(), student_in_studentmobile.getText(), 
                 student_in_studentemail.getText(), student_in_studentnumber.getText(), -1))  {
         JOptionPane.showMessageDialog(null, "Student information already exists.");
         return;
@@ -1101,33 +1310,37 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btn_editActionPerformed
 
     private void trans_btn_searchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_searchUserActionPerformed
-        String sql = "select * from tranches where student_number=?";
-        try{
+        String studentNumber = trans_in_searchUser.getText();
+        String sql = "SELECT * FROM student WHERE student_number=?";
+        try {
             pst = conn.prepareStatement(sql);
-            pst.setString(1, trans_in_searchUser.getText());
+            pst.setString(1, studentNumber);
             rs = pst.executeQuery();
-            if(rs.next()){
-                String studentAdd1 = rs.getString("student_name");
-                trans_in_studentname.setText(studentAdd1);
-                String studentAdd2 = rs.getString("student_number");
-                trans_in_studentname.setText(studentAdd2);
-                String studentAdd3 = rs.getString("discount_name");
-                trans_in_studentname.setText(studentAdd3);
-                String studentAdd4 = rs.getString("discount_amount");
-                trans_in_studentname.setText(studentAdd4);
-                rs.close();
-                pst.close();
-            }else{
-                JOptionPane.showMessageDialog(null, "Enter the correct Student ID or Student Name.");
+            if (rs.next()) {
+                String studentName = rs.getString("student_name");
+                String studentNumberResult = rs.getString("student_number");
+                String discountName = rs.getString("discount_name");
+                double discountAmount = calculateDiscountAmount(discountName);
+
+                // Check if student information exists
+                JOptionPane.showMessageDialog(null, "Student information exists");
+
+                // Set text fields
+                trans_in_studentname.setText(studentName); 
+                trans_in_studentnumber.setText(studentNumberResult);
+                trans_in_discount.setText(discountName);
+                trans_in_discountamount.setText(String.valueOf(discountAmount));
+            } else {
+                JOptionPane.showMessageDialog(null, "Student information does not exist.");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }finally{
-            try{
+        } finally {
+            try {
                 rs.close();
                 pst.close();
-            }catch (Exception e){
-   
+            } catch (Exception e) {
+                // Handle exceptions
             }
         }
     }//GEN-LAST:event_trans_btn_searchUserActionPerformed
@@ -1156,7 +1369,7 @@ public class PT_main extends javax.swing.JFrame {
                 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
                 String updatedStudentDOB = sdf.format(date);
 
-                if (isDuplicate(updatedStudentName, updatedStudentMobile, updatedStudentEmail, updatedStudentNumber, currentStudentId)) {
+                if (isDuplicateStudent(updatedStudentName, updatedStudentMobile, updatedStudentEmail, updatedStudentNumber, currentStudentId)) {
                     JOptionPane.showMessageDialog(null, "Student information already exists.");
                     return;
                 }
@@ -1245,21 +1458,114 @@ public class PT_main extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btn_clearActionPerformed
 
     private void student_combo_discountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_combo_discountActionPerformed
-        // TODO add your handling code here:
         String selectedDiscount = (String) student_combo_discount.getSelectedItem();
-        String sql = "SELECT discount_amount FROM discounts WHERE discount_name=?";
+        double discountAmount = calculateDiscountAmount(selectedDiscount);
+        trans_in_discountamount.setText(String.valueOf(discountAmount));
+    }//GEN-LAST:event_student_combo_discountActionPerformed
+
+    private void student_combo_branchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_combo_branchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_student_combo_branchActionPerformed
+
+    private void trans_btn_payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_payActionPerformed
         try {
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, selectedDiscount);
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                double discountAmount = rs.getDouble("discount_amount");
-                trans_in_discountamount.setText(String.valueOf(discountAmount));
-            }
-        } catch (SQLException e) {
+            // Fetch payment details
+            String studentName = trans_in_studentname.getText();
+            String studentNumber = trans_in_studentnumber.getText();
+            String discountName = trans_in_discount.getText();
+            double discountAmount = Double.parseDouble(trans_in_discountamount.getText());
+            double trancheAmount = Double.parseDouble(trans_in_trancheamount.getText());
+            String trancheDate = ((JTextField) trans_date_chooser.getDateEditor().getUiComponent()).getText();
+            double newBalance = discountAmount - trancheAmount;
+
+            // Insert payment transaction into the tranches table
+            String insertTransactionSQL = "INSERT INTO tranches (student_name, student_number, discount_name, discount_amount, tranche_amount, tranche_date, balance) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            pst = conn.prepareStatement(insertTransactionSQL); 
+            pst.setString(1, studentName);
+            pst.setString(2, studentNumber);
+            pst.setString(3, discountName);
+            pst.setDouble(4, discountAmount);
+            pst.setDouble(5, trancheAmount);
+            pst.setString(6, trancheDate);
+            pst.setDouble(7, newBalance);
+            pst.executeUpdate();
+
+            // Refresh the transaction table
+            TransactionTable();
+
+            // Show success message
+            JOptionPane.showMessageDialog(null, "Payment successful. Balance updated.");
+        } catch (SQLException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_student_combo_discountActionPerformed
+    }//GEN-LAST:event_trans_btn_payActionPerformed
+
+    private void trans_btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_searchActionPerformed
+        String searchQuery = trans_in_search.getText().trim();
+        if (searchQuery.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a search query.");
+            return;
+        }
+        boolean valueExists = false;
+        for (int i = 0; i < trans_table.getRowCount(); i++) {
+            for (int j = 0; j < trans_table.getColumnCount(); j++) {
+                String cellValue = trans_table.getValueAt(i, j).toString();
+                if (cellValue.equalsIgnoreCase(searchQuery)) {
+                    trans_table.setRowSelectionInterval(i, i);
+                    valueExists = true;
+                    break;
+                }
+            }
+            if (valueExists) {
+                break;
+            }
+        }
+        if (valueExists) {
+            JOptionPane.showMessageDialog(null, "Value exists.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Value does not exist.");
+        }
+    }//GEN-LAST:event_trans_btn_searchActionPerformed
+
+    private void trans_btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_editActionPerformed
+        // Enable editing for tranche_amount and tranche_date
+        trans_in_trancheamount.setEditable(true);
+        trans_date_chooser.setEnabled(true);
+
+        // Clear the balance field
+        trans_in_balance.setText("");
+
+        // Calculate and display the remaining balance based on the previous payment
+        double previousBalance = Double.parseDouble(trans_in_discountamount.getText());
+        double trancheAmount = Double.parseDouble(trans_in_trancheamount.getText());
+        double remainingBalance = previousBalance - trancheAmount;
+        trans_in_discountamount.setText(String.valueOf(remainingBalance));
+    }//GEN-LAST:event_trans_btn_editActionPerformed
+
+    private void trans_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_clearActionPerformed
+        clearTrancheFields();
+    }//GEN-LAST:event_trans_btn_clearActionPerformed
+
+    private void trans_btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trans_btn_deleteActionPerformed
+        try {
+            int selectedRow = trans_table.getSelectedRow();
+            if (selectedRow != -1) {
+                String studentNumber = (String) trans_table.getValueAt(selectedRow, 1); // Assuming the student number column is at index 1
+
+                // Delete the corresponding row from the database based on student number
+                String sql = "DELETE FROM tranches WHERE student_number=?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, studentNumber);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Transaction history deleted successfully!");
+                TransactionTable(); // Refresh transaction table after deletion
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a row to delete.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_trans_btn_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1335,9 +1641,10 @@ public class PT_main extends javax.swing.JFrame {
     private javax.swing.JLabel student_txt_studentnumber;
     private javax.swing.JPanel tab_students;
     private javax.swing.JPanel tab_transactions;
+    private javax.swing.JButton trans_btn_clear;
+    private javax.swing.JButton trans_btn_delete;
     private javax.swing.JButton trans_btn_edit;
     private javax.swing.JButton trans_btn_pay;
-    private javax.swing.JButton trans_btn_refresh;
     private javax.swing.JButton trans_btn_search;
     private javax.swing.JButton trans_btn_searchUser;
     private javax.swing.JButton trans_btn_update;

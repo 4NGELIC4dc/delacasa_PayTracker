@@ -471,6 +471,9 @@
                           </StringArray>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_combo_branchActionPerformed"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -748,8 +751,8 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="student_scrollpane" pref="837" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="student_btn_search" min="-2" pref="140" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="student_btn_search" min="-2" pref="134" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="student_in_search" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -903,62 +906,71 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="trans_txt_studentname" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="trans_txt_studentnumber" alignment="0" pref="110" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="trans_txt_trancheamount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <Component id="trans_txt_tranchedate" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  <Component id="trans_txt_discountamount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="trans_txt_discount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="trans_in_discount" max="32767" attributes="0"/>
+                                                  <Component id="trans_date_chooser" pref="205" max="32767" attributes="0"/>
+                                                  <Component id="trans_in_trancheamount" max="32767" attributes="0"/>
+                                                  <Component id="trans_in_discountamount" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <Component id="trans_btn_searchUser" min="-2" pref="137" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="trans_txt_balance" min="-2" pref="110" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                                      <Component id="trans_in_balance" min="-2" pref="205" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="trans_btn_pay" min="-2" pref="70" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="trans_btn_clear" min="-2" pref="70" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="trans_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="trans_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
+                                                      <EmptySpace max="32767" attributes="0"/>
+                                                      <Component id="trans_btn_delete" min="-2" pref="70" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="trans_txt_studentname" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="trans_txt_studentnumber" alignment="0" pref="110" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="trans_btn_searchUser" max="32767" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="trans_in_studentname" alignment="1" pref="205" max="32767" attributes="0"/>
                                           <Component id="trans_in_studentnumber" max="32767" attributes="0"/>
                                           <Component id="trans_in_searchUser" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="trans_txt_balance" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                              <Component id="trans_btn_pay" min="-2" pref="70" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                              <Component id="trans_btn_edit" min="-2" pref="70" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                              <Component id="trans_btn_update" min="-2" pref="70" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                              <Component id="trans_in_balance" min="-2" pref="205" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="trans_txt_trancheamount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <Component id="trans_txt_tranchedate" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                                          <Component id="trans_txt_discountamount" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="trans_txt_discount" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="trans_in_discount" max="32767" attributes="0"/>
-                                          <Component id="trans_date_chooser" pref="205" max="32767" attributes="0"/>
-                                          <Component id="trans_in_trancheamount" max="32767" attributes="0"/>
-                                          <Component id="trans_in_discountamount" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
                               </Group>
-                              <EmptySpace pref="17" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1010,6 +1022,8 @@
                                   <Component id="trans_btn_pay" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   <Component id="trans_btn_edit" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   <Component id="trans_btn_update" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="trans_btn_clear" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="trans_btn_delete" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                           </Group>
@@ -1196,6 +1210,9 @@
                       </Events>
                     </Component>
                     <Component class="com.toedter.calendar.JDateChooser" name="trans_date_chooser">
+                      <Properties>
+                        <Property name="dateFormatString" type="java.lang.String" value="YYYY-MM-dd"/>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="trans_btn_pay">
                       <Properties>
@@ -1213,6 +1230,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_payActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="trans_btn_edit">
                       <Properties>
@@ -1230,6 +1250,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_editActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="trans_btn_update">
                       <Properties>
@@ -1287,6 +1310,46 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_in_searchUserActionPerformed"/>
                       </Events>
                     </Component>
+                    <Component class="javax.swing.JButton" name="trans_btn_clear">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="41" green="c2" red="8e" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Clear"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_clearActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="trans_btn_delete">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="41" green="c2" red="8e" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="12" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Delete"/>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="null"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_deleteActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="trans_panel2">
@@ -1302,12 +1365,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="trans_scrollpane" alignment="0" pref="837" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="trans_btn_search" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="trans_btn_refresh" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="trans_scrollpane" pref="837" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="trans_btn_search" min="-2" pref="134" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="trans_in_search" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1322,7 +1383,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="trans_in_search" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="trans_btn_search" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="trans_btn_refresh" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="trans_scrollpane" min="-2" pref="448" max="-2" attributes="0"/>
@@ -1436,23 +1496,9 @@
                           <Border info="null"/>
                         </Property>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="trans_btn_refresh">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="41" green="c2" red="8e" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="12" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Refresh"/>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="null"/>
-                        </Property>
-                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trans_btn_searchActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
